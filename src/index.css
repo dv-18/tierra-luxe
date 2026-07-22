@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm-neutral luxury palette — HSL channels only (Tailwind wraps in hsl()) */
+    --ivory: 36 33% 96%; /* page background */
+    --sand: 34 24% 90%; /* surface / cards */
+    --stone: 30 8% 46%; /* muted text */
+    --charcoal: 24 10% 12%; /* primary text / near-black */
+    --line: 30 12% 84%; /* hairline borders */
+    --gold: 36 42% 52%; /* bronze-gold accent */
+  }
+
+  * {
+    border-color: hsl(var(--line));
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply text-charcoal font-body antialiased;
+    overflow-x: hidden;
+    background-color: hsl(var(--ivory));
+    background-image: linear-gradient(hsl(var(--ivory) / 0.55), hsl(var(--ivory) / 0.55)),
+      url('/textures/travertine.webp');
+    background-repeat: repeat;
+    background-size: 380px 380px;
+  }
+
+  /* Lenis smooth-scroll baseline */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Muted, editorial selection */
+  ::selection {
+    background: hsl(var(--gold) / 0.22);
+    color: hsl(var(--charcoal));
+  }
+
+  /* Focus states for keyboard users */
+  :focus-visible {
+    outline: 1px solid hsl(var(--gold));
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Growing gold underline used on nav + text links */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: hsl(var(--gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Alpago-style uppercase grotesk section label */
+  .section-label {
+    @apply font-grotesk font-semibold uppercase tracking-[0.2em];
+  }
+
+  /* Faint halftone / grain texture for editorial imagery */
+  .grain-overlay {
+    background-image: radial-gradient(
+      hsl(var(--charcoal) / 0.5) 0.5px,
+      transparent 0.5px
+    );
+    background-size: 3px 3px;
+  }
+
+  /* Ivory sections/pages — travertine texture tinted low-opacity so it reads
+     as warm stone grain rather than a busy pattern; text stays fully legible. */
+  .bg-travertine {
+    background-color: hsl(var(--ivory));
+    background-image: linear-gradient(hsl(var(--ivory) / 0.55), hsl(var(--ivory) / 0.55)),
+      url('/textures/travertine.webp');
+    background-repeat: repeat;
+    background-size: 380px 380px;
+  }
+}
+
+@layer utilities {
+  .edge-fade-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes reveal-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Respect users who prefer reduced motion: kill transforms/parallax, keep fades */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
