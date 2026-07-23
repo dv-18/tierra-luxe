@@ -1,12 +1,8 @@
-import { lazy, Suspense, useEffect, useReducer, useRef, useState } from 'react'
+import { useEffect, useReducer, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { hero } from '../content'
 import { EASE, prefersReducedMotion } from '../lib/motion'
-
-// hls.js is only needed when real footage is wired in — keep it out of the
-// initial bundle and load it on demand.
-const FadingVideo = lazy(() => import('./FadingVideo'))
 
 const CHAPTER_MS = 7000
 const FADE_MS = 500
@@ -105,48 +101,23 @@ export default function Hero({ ready }: { ready: boolean }) {
 
   return (
     <section id="top" className="relative h-[100svh] w-full overflow-hidden bg-charcoal">
-      {/* Media layers */}
-      <div className="absolute inset-0">
-        {chapters.map((c, i) => (
-          <div
-            key={i}
-            className="absolute inset-0"
-            style={{ opacity: opacities[i] }}
-            aria-hidden={i !== active}
-          >
-            {hero.useVideo && c.video ? (
-              <Suspense
-                fallback={
-                  <img
-                    src={c.poster}
-                    alt=""
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                }
-              >
-                <FadingVideo
-                  hls={c.video.hls}
-                  mp4={c.video.mp4}
-                  poster={c.poster}
-                  active={i === active}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </Suspense>
-            ) : (
-              <img
-                src={c.poster}
-                alt={i === active ? c.alt : ''}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                className="absolute inset-0 h-full w-full object-cover"
-                style={{
-                  transform: i === active ? 'scale(1.08)' : 'scale(1)',
-                  transition: 'transform 8000ms linear',
-                }}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+     {/* YouTube hero background */}
+<div className="absolute inset-0 overflow-hidden bg-charcoal">
+  {/* Fallback image displayed while YouTube loads */}
+  <img
+    src={chapters[0].poster}
+    alt=""
+    className="absolute inset-0 h-full w-full object-cover"
+  />
+
+  <iframe
+    src="https://www.youtube-nocookie.com/embed/Kca8uk_3ay0?autoplay=1&mute=1&controls=0&loop=1&playlist=Kca8uk_3ay0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1"
+    title="Tierra Luxe"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    referrerPolicy="strict-origin-when-cross-origin"
+    className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2 border-0"
+  />
+</div>
 
       {/* Scrims: nav legibility (top), text legibility + melt into next (bottom) */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/55 via-transparent to-charcoal/25" />
