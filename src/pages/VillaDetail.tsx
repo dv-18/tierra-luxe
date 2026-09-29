@@ -38,10 +38,12 @@ export default function VillaDetail() {
       <main>
         <VillaHero villa={villa} />
         <Overview villa={villa} />
+        <ProjectFilm villa={villa} />
         <PinnedGlide villa={villa} />
+        <VillaGallery villa={villa} />
         <Accordion villa={villa} />
         <Transformation villa={villa} />
-        <Proximity villa={villa} />
+        {villa.proximity.length > 0 && <Proximity villa={villa} />}
       </main>
       <EnquirySection villaName={villa.name} />
       <Related slug={villa.slug} />
@@ -102,7 +104,7 @@ function Overview({ villa }: { villa: Villa }) {
     ['Levels', String(villa.levels)],
     ['Built-up Area', `${villa.builtUpSqft} sq.ft`],
     ['Plot Area', `${villa.plotSqft} sq.ft`],
-    ['Expected Price', villa.price],
+    ...(villa.price ? ([['Expected Price', villa.price]] as [string, string][]) : []),
     ['Status', villa.status],
   ]
 
@@ -152,6 +154,72 @@ function Overview({ villa }: { villa: Villa }) {
               </div>
             ))}
           </dl>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------ Project film */
+function ProjectFilm({ villa }: { villa: Villa }) {
+  const [showVideo, setShowVideo] = useState(false)
+
+  useEffect(() => {
+    if (!villa.video) return
+    const timer = window.setTimeout(() => setShowVideo(true), 3000)
+    return () => window.clearTimeout(timer)
+  }, [villa.video])
+
+  if (!villa.video) return null
+
+  const { youtubeId, title } = villa.video
+  const src =
+    `https://www.youtube-nocookie.com/embed/${youtubeId}` +
+    `?autoplay=1&mute=1&controls=0&cc_load_policy=0&disablekb=1&fs=0` +
+    `&loop=1&playlist=${youtubeId}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3`
+
+  return (
+    <section className="bg-charcoal py-24 text-ivory md:py-32">
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+        <div className="mb-10 flex items-end justify-between gap-8">
+          <div>
+            <div className="mb-5 flex items-center gap-4">
+              <span className="h-px w-10 bg-gold" />
+              <span className="section-label text-xs text-ivory/60">Project Film</span>
+            </div>
+            <h2 className="font-grotesk text-3xl font-extrabold uppercase leading-tight tracking-tight md:text-5xl">
+              Experience {villa.name}
+            </h2>
+          </div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1, ease: EASE }}
+          className="relative aspect-video overflow-hidden rounded-[24px] border border-ivory/10 bg-charcoal"
+        >
+          <img
+            src={villa.heroImage}
+            alt=""
+            aria-hidden="true"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+              showVideo ? 'opacity-0' : 'opacity-100'
+            }`}
+          />
+          <iframe
+            src={src}
+            title={title}
+            allow="autoplay; encrypted-media"
+            referrerPolicy="strict-origin-when-cross-origin"
+            tabIndex={-1}
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-0 h-full w-full scale-[1.02] border-0 transition-opacity duration-1000 ${
+              showVideo ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+          <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-ivory/10" />
         </motion.div>
       </div>
     </section>
@@ -294,6 +362,53 @@ function PinnedGlide({ villa }: { villa: Villa }) {
   )
 }
 
+/* ---------------------------------------------------------- Gallery */
+function VillaGallery({ villa }: { villa: Villa }) {
+  if (villa.gallery.length < 2) return null
+
+  return (
+    <section className="bg-travertine py-24 md:py-32">
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+        <div className="mb-12 flex items-end justify-between gap-8">
+          <div>
+            <div className="mb-5 flex items-center gap-4">
+              <span className="h-px w-10 bg-gold" />
+              <span className="section-label text-xs text-stone">Gallery</span>
+            </div>
+            <h2 className="font-grotesk text-3xl font-extrabold uppercase leading-tight tracking-tight text-charcoal md:text-5xl">
+              Inside {villa.name}
+            </h2>
+          </div>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          {villa.gallery.map((image, index) => (
+            <motion.figure
+              key={image}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.8, ease: EASE, delay: Math.min(index * 0.06, 0.24) }}
+              className={`overflow-hidden rounded-[20px] border border-line ${
+                index === 0 ? 'md:col-span-2' : ''
+              }`}
+            >
+              <img
+                src={image}
+                alt={`${villa.name} ${index === 0 ? 'living space' : `gallery view ${index + 1}`}`}
+                loading="lazy"
+                className={`w-full object-cover ${
+                  index === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'
+                }`}
+              />
+            </motion.figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ------------------------------------------------ ★ Numbered accordion */
 function Accordion({ villa }: { villa: Villa }) {
   const [open, setOpen] = useState(0)
@@ -358,6 +473,18 @@ function Accordion({ villa }: { villa: Villa }) {
 
 /* --------------------------------------- Experience the Transformation */
 function Transformation({ villa }: { villa: Villa }) {
+  const transformations =
+    villa.transformations && villa.transformations.length > 0
+      ? villa.transformations
+      : [
+          {
+            beforeImage: villa.beforeImage,
+            afterImage: villa.afterImage,
+          },
+        ]
+
+  const [primary, ...additional] = transformations
+
   return (
     <section className="bg-charcoal py-24 text-ivory md:py-32">
       <div className="mx-auto grid max-w-[1400px] items-center gap-12 px-6 md:grid-cols-2 md:gap-16 md:px-10">
@@ -389,14 +516,65 @@ function Transformation({ villa }: { villa: Villa }) {
           </p>
         </motion.div>
 
-        {/* Slider */}
-        <BeforeAfterSlider
-          before={villa.beforeImage}
-          after={villa.afterImage}
-          beforeAlt={`${villa.name} before redevelopment`}
-          afterAlt={`${villa.name} after redevelopment`}
-        />
+        {/* Primary slider */}
+        <div>
+          {primary.label && (
+            <p className="section-label mb-4 text-xs text-ivory/60">{primary.label}</p>
+          )}
+          {primary.beforeImage ? (
+            <BeforeAfterSlider
+              before={primary.beforeImage}
+              after={primary.afterImage}
+              beforeAlt={`${villa.name} before redevelopment`}
+              afterAlt={`${villa.name} after redevelopment`}
+            />
+          ) : (
+            <div className="relative overflow-hidden rounded-[20px] border border-ivory/10">
+              <img
+                src={primary.afterImage}
+                alt={`${villa.name} completed transformation`}
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <span className="absolute right-5 top-5 rounded-md bg-charcoal/70 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-ivory backdrop-blur-sm">
+                After
+              </span>
+            </div>
+          )}
+        </div>
       </div>
+
+      {additional.length > 0 && (
+        <div className="mx-auto mt-12 grid max-w-[1400px] gap-8 px-6 md:grid-cols-2 md:px-10">
+          {additional.map((item, index) => (
+            <div key={`${item.beforeImage ?? 'completed'}-${item.afterImage}`}>
+              {item.label && (
+                <p className="section-label mb-4 text-xs text-ivory/60">{item.label}</p>
+              )}
+              {item.beforeImage ? (
+                <BeforeAfterSlider
+                  before={item.beforeImage}
+                  after={item.afterImage}
+                  beforeAlt={`${villa.name} before redevelopment, view ${index + 2}`}
+                  afterAlt={`${villa.name} after redevelopment, view ${index + 2}`}
+                />
+              ) : (
+                <div className="relative overflow-hidden rounded-[20px] border border-ivory/10">
+                  <img
+                    src={item.afterImage}
+                    alt={`${villa.name} completed transformation, view ${index + 2}`}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                  <span className="absolute right-5 top-5 rounded-md bg-charcoal/70 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-ivory backdrop-blur-sm">
+                    After
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   )
 }

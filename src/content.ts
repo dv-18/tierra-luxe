@@ -146,6 +146,16 @@ export const projects = {
   items: [
     {
       index: '01',
+      slug: 'villa-o58',
+      name: 'Villa O58',
+      category: 'Completed · Sold',
+      descriptor:
+        'A traditional Frond N villa transformed into a contemporary four-bedroom waterfront residence.',
+      image: '/projects/villa-o58/pool-terrace.webp',
+      alt: 'Villa O58 waterfront pool terrace on Palm Jumeirah',
+    },
+    {
+      index: '02',
       slug: 'casa-della-terra',
       name: 'Casa Della Terra',
       category: 'Redesigned',
@@ -155,7 +165,7 @@ export const projects = {
       alt: 'Bright open-plan living room with floor-to-ceiling glass',
     },
     {
-      index: '02',
+      index: '03',
       slug: 'villa-serenita',
       name: 'Villa Serenità',
       category: 'Vastu-Aligned',
@@ -165,7 +175,7 @@ export const projects = {
       alt: 'Serene interior with soft daylight and natural materials',
     },
     {
-      index: '03',
+      index: '04',
       slug: 'the-sanctuary',
       name: 'The Sanctuary',
       category: 'Full Redevelopment',
@@ -175,7 +185,7 @@ export const projects = {
       alt: 'Luxury villa terrace opening onto a landscaped pool',
     },
     {
-      index: '04',
+      index: '05',
       slug: 'villa-costiera',
       name: 'Villa Costiera',
       category: 'Redesigned',
@@ -296,6 +306,17 @@ export interface VillaSection {
   image: string
 }
 
+export interface VillaTransformation {
+  label?: string
+  beforeImage?: string
+  afterImage: string
+}
+
+export interface VillaVideo {
+  youtubeId: string
+  title: string
+}
+
 export interface Villa {
   slug: string
   name: string
@@ -307,7 +328,9 @@ export interface Villa {
   gallery: string[]
   beforeImage: string // pre-redevelopment (transformation slider)
   afterImage: string // post-redevelopment (transformation slider)
-  price: string
+  transformations?: VillaTransformation[]
+  video?: VillaVideo
+  price?: string
   builtUpSqft: string
   plotSqft: string
   enclosedAreaSqft: string // big pinned stat, e.g. "14,000"
@@ -330,6 +353,73 @@ const PROXIMITY: Villa['proximity'] = [
 ]
 
 export const villas: Villa[] = [
+  {
+    slug: 'villa-o58',
+    name: 'Villa O58',
+    status: 'Sold',
+    location: 'Frond N, Palm Jumeirah',
+    area: 'Palm Jumeirah',
+    heroImage: '/projects/villa-o58/night-exterior.webp',
+    cardImage: '/projects/villa-o58/pool-terrace.webp',
+    beforeImage: '/projects/villa-o58/before-exterior.webp',
+    afterImage: '/projects/villa-o58/after-exterior.webp',
+    transformations: [
+      {
+        label: 'Waterfront Elevation',
+        beforeImage: '/projects/villa-o58/before-exterior.webp',
+        afterImage: '/projects/villa-o58/after-exterior.webp',
+      },
+      {
+        label: 'Arrival Elevation',
+        afterImage: '/projects/villa-o58/street-exterior.webp',
+      },
+    ],
+    video: {
+      youtubeId: 'Kca8uk_3ay0',
+      title: 'Villa O58 — Tierra Luxe',
+    },
+    gallery: [
+      '/projects/villa-o58/living-room.webp',
+      '/projects/villa-o58/pool-terrace.webp',
+      '/projects/villa-o58/kitchen.webp',
+      '/projects/villa-o58/dressing-room.webp',
+      '/projects/villa-o58/night-exterior.webp',
+    ],
+    builtUpSqft: '7,336',
+    plotSqft: '5,000',
+    enclosedAreaSqft: '7,336',
+    bedrooms: 4,
+    bathrooms: 5,
+    levels: 2,
+    shortSpec: '4 Bed · 7,336 sqft · Palm Jumeirah',
+    overview: [
+      'Villa O58 is a completed G+1 residence on Frond N, transformed from a traditional Palm Jumeirah villa into a contemporary waterfront home.',
+      'Across 7,336 square feet, four bedrooms and five bathrooms are arranged around soaring glazing, open living spaces and uninterrupted views towards the water.',
+      'The 5,000-square-foot plot is shaped for indoor–outdoor living, with a waterfront pool terrace, sunken seating and a calm palette of stone, timber and glass.',
+    ],
+    pullQuote: 'A complete waterfront transformation, designed around light, scale and the horizon.',
+    sections: [
+      {
+        n: 1,
+        heading: 'The Architecture',
+        body: 'The original G+1 villa was recast as a clean contemporary composition, with expansive glazing, strong horizontal lines and a waterfront elevation opened towards the Palm.',
+        image: '/projects/villa-o58/street-exterior.webp',
+      },
+      {
+        n: 2,
+        heading: 'The Interior',
+        body: 'Double-height glazing, pale stone and warm timber create generous, light-led rooms. Bespoke joinery and carefully integrated lighting keep the interior refined without feeling formal.',
+        image: '/projects/villa-o58/living-room.webp',
+      },
+      {
+        n: 3,
+        heading: 'Outdoor & Amenities',
+        body: 'The waterfront garden is organised around a private pool, a sunken conversation lounge and open terraces that extend the main living spaces towards the view.',
+        image: '/projects/villa-o58/pool-terrace.webp',
+      },
+    ],
+    proximity: [],
+  },
   {
     slug: 'casa-della-terra',
     name: 'Casa Della Terra',

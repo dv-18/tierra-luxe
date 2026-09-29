@@ -9,6 +9,13 @@ const CHAPTER_MS = 7000
 export default function Hero({ ready }: { ready: boolean }) {
   const chapters = hero.chapters
   const [active, setActive] = useState(0)
+  const [showVideo, setShowVideo] = useState(false)
+
+  // Keep YouTube's startup overlays behind the poster while the player initializes.
+  useEffect(() => {
+    const timer = window.setTimeout(() => setShowVideo(true), 3500)
+    return () => window.clearTimeout(timer)
+  }, [])
 
   // Rotate the three headline chapters over the same background video.
   useEffect(() => {
@@ -78,15 +85,21 @@ export default function Hero({ ready }: { ready: boolean }) {
           src={chapters[0].poster}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+            showVideo ? 'opacity-0' : 'opacity-100'
+          }`}
         />
 
         <iframe
-          src="https://www.youtube-nocookie.com/embed/Kca8uk_3ay0?autoplay=1&mute=1&controls=0&loop=1&playlist=Kca8uk_3ay0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1"
+          src="https://www.youtube-nocookie.com/embed/Kca8uk_3ay0?autoplay=1&mute=1&controls=0&cc_load_policy=0&loop=1&playlist=Kca8uk_3ay0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&start=1"
           title="Tierra Luxe cinematic villa video"
-          allow="autoplay; encrypted-media; picture-in-picture"
+          allow="autoplay; encrypted-media"
           referrerPolicy="strict-origin-when-cross-origin"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2 border-0"
+          tabIndex={-1}
+          aria-hidden="true"
+          className={`pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2 border-0 transition-opacity duration-1000 ${
+            showVideo ? 'opacity-100' : 'opacity-0'
+          }`}
         />
       </div>
 
