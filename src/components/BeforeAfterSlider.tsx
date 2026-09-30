@@ -24,19 +24,44 @@ export default function BeforeAfterSlider({
   className = '',
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const beforeLayerRef = useRef<HTMLDivElement>(null)
+  const dividerRef = useRef<HTMLDivElement>(null)
+  const handleRef = useRef<HTMLButtonElement>(null)
   const draggingRef = useRef(false)
-  const [pos, setPos] = useState(50) // divider position, %
+  const posRef = useRef(50)
+  const pointerFrameRef = useRef<number | null>(null)
+  const queuedClientXRef = useRef<number | null>(null)
   const [animateHint, setAnimateHint] = useState(true)
 
   const inView = useInView(containerRef, { once: true, margin: '-80px' })
+
+  const applyPosition = useCallback((next: number) => {
+    const bounded = Math.min(100, Math.max(0, next))
+    posRef.current = bounded
+    if (beforeLayerRef.current) {
+      beforeLayerRef.current.style.clipPath = `inset(0 ${100 - bounded}% 0 0)`
+    }
+    if (dividerRef.current) dividerRef.current.style.left = `${bounded}%`
+    handleRef.current?.setAttribute('aria-valuenow', String(Math.round(bounded)))
+  }, [])
 
   const setFromClientX = useCallback((clientX: number) => {
     const el = containerRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()
     const p = ((clientX - rect.left) / rect.width) * 100
-    setPos(Math.min(100, Math.max(0, p)))
-  }, [])
+    applyPosition(p)
+  }, [applyPosition])
+
+  const queueFromClientX = useCallback((clientX: number) => {
+    queuedClientXRef.current = clientX
+    if (pointerFrameRef.current !== null) return
+    pointerFrameRef.current = requestAnimationFrame(() => {
+      if (queuedClientXRef.current !== null) setFromClientX(queuedClientXRef.current)
+      queuedClientXRef.current = null
+      pointerFrameRef.current = null
+    })
+  }, [setFromClientX])
 
   const onPointerDown = (e: React.PointerEvent) => {
     setAnimateHint(false)
@@ -46,20 +71,25 @@ export default function BeforeAfterSlider({
   }
   const onPointerMove = (e: React.PointerEvent) => {
     if (!draggingRef.current) return
-    setFromClientX(e.clientX)
+    queueFromClientX(e.clientX)
   }
   const onPointerUp = (e: React.PointerEvent) => {
+    if (queuedClientXRef.current !== null) setFromClientX(queuedClientXRef.current)
+    queuedClientXRef.current = null
+    if (pointerFrameRef.current !== null) cancelAnimationFrame(pointerFrameRef.current)
+    pointerFrameRef.current = null
     draggingRef.current = false
-    containerRef.current?.releasePointerCapture(e.pointerId)
+    const el = containerRef.current
+    if (el?.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId)
   }
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowLeft') {
       setAnimateHint(false)
-      setPos((p) => Math.max(0, p - 3))
+      applyPosition(posRef.current - 3)
     } else if (e.key === 'ArrowRight') {
       setAnimateHint(false)
-      setPos((p) => Math.min(100, p + 3))
+      applyPosition(posRef.current + 3)
     }
   }
 
@@ -72,18 +102,25 @@ export default function BeforeAfterSlider({
     const tick = (t: number) => {
       const elapsed = t - start
       if (elapsed >= DURATION || !animateHint) {
-        setPos(50)
+        applyPosition(50)
         return
       }
       // ease in-out sweep: 50 → 62 → 38 → 50
       const x = elapsed / DURATION
       const sweep = Math.sin(x * Math.PI * 2) * 12 * (1 - x)
-      setPos(50 + sweep)
+      applyPosition(50 + sweep)
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [inView, animateHint])
+  }, [inView, animateHint, applyPosition])
+
+  useEffect(
+    () => () => {
+      if (pointerFrameRef.current !== null) cancelAnimationFrame(pointerFrameRef.current)
+    },
+    [],
+  )
 
   return (
     <motion.div
@@ -99,7 +136,10 @@ export default function BeforeAfterSlider({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
-        className="group relative aspect-[4/3] w-full cursor-ew-resize select-none overflow-hidden rounded-[20px] border border-ivory/10"
+        onLostPointerCapture={() => {
+          draggingRef.current = false
+        }}
+        className="group relative aspect-[3/2] w-full cursor-ew-resize select-none overflow-hidden rounded-[20px] border border-ivory/10 bg-charcoal"
         style={{ touchAction: 'pan-y' }}
       >
         {/* After (base) */}
@@ -112,8 +152,9 @@ export default function BeforeAfterSlider({
 
         {/* Before (clipped to the left of the divider) */}
         <div
+          ref={beforeLayerRef}
           className="absolute inset-0 overflow-hidden"
-          style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+          style={{ clipPath: 'inset(0 50% 0 0)', willChange: 'clip-path' }}
         >
           <img
             src={before}
@@ -133,15 +174,17 @@ export default function BeforeAfterSlider({
 
         {/* Divider + handle */}
         <div
+          ref={dividerRef}
           className="pointer-events-none absolute inset-y-0"
-          style={{ left: `${pos}%` }}
+          style={{ left: '50%', willChange: 'left' }}
         >
           <div className="absolute inset-y-0 left-0 w-px -translate-x-1/2 bg-ivory/90 shadow-[0_0_12px_rgba(0,0,0,0.35)]" />
           <button
+            ref={handleRef}
             type="button"
             onKeyDown={onKeyDown}
             aria-label="Drag to compare before and after"
-            aria-valuenow={Math.round(pos)}
+            aria-valuenow={50}
             aria-valuemin={0}
             aria-valuemax={100}
             role="slider"

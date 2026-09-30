@@ -146,13 +146,13 @@ export const projects = {
   items: [
     {
       index: '01',
-      slug: 'villa-o58',
-      name: 'Villa O58',
+      slug: 'frond-n-palm-jumeirah',
+      name: 'Frond N - Palm Jumeirah',
       category: 'Completed · Sold',
       descriptor:
         'A traditional Frond N villa transformed into a contemporary four-bedroom waterfront residence.',
       image: '/projects/villa-o58/pool-terrace.webp',
-      alt: 'Villa O58 waterfront pool terrace on Palm Jumeirah',
+      alt: 'Frond N waterfront pool terrace on Palm Jumeirah',
     },
     {
       index: '02',
@@ -319,6 +319,7 @@ export interface VillaVideo {
 
 export interface Villa {
   slug: string
+  aliases?: string[]
   name: string
   status: string
   location: string
@@ -326,6 +327,7 @@ export interface Villa {
   heroImage: string
   cardImage: string
   gallery: string[]
+  portraitGallery?: string[]
   beforeImage: string // pre-redevelopment (transformation slider)
   afterImage: string // post-redevelopment (transformation slider)
   transformations?: VillaTransformation[]
@@ -354,10 +356,11 @@ const PROXIMITY: Villa['proximity'] = [
 
 export const villas: Villa[] = [
   {
-    slug: 'villa-o58',
-    name: 'Villa O58',
+    slug: 'frond-n-palm-jumeirah',
+    aliases: ['villa-o58'],
+    name: 'Frond N - Palm Jumeirah',
     status: 'Sold',
-    location: 'Frond N, Palm Jumeirah',
+    location: 'Dubai, UAE',
     area: 'Palm Jumeirah',
     heroImage: '/projects/villa-o58/night-exterior.webp',
     cardImage: '/projects/villa-o58/pool-terrace.webp',
@@ -371,12 +374,13 @@ export const villas: Villa[] = [
       },
       {
         label: 'Arrival Elevation',
+        beforeImage: '/projects/villa-o58/arrival-before.webp',
         afterImage: '/projects/villa-o58/street-exterior.webp',
       },
     ],
     video: {
       youtubeId: 'Kca8uk_3ay0',
-      title: 'Villa O58 — Tierra Luxe',
+      title: 'Frond N - Palm Jumeirah | Tierra Luxe',
     },
     gallery: [
       '/projects/villa-o58/living-room.webp',
@@ -384,6 +388,11 @@ export const villas: Villa[] = [
       '/projects/villa-o58/kitchen.webp',
       '/projects/villa-o58/dressing-room.webp',
       '/projects/villa-o58/night-exterior.webp',
+    ],
+    portraitGallery: [
+      '/projects/villa-o58/vertical-dining.webp',
+      '/projects/villa-o58/vertical-entry.webp',
+      '/projects/villa-o58/vertical-living.webp',
     ],
     builtUpSqft: '7,336',
     plotSqft: '5,000',
@@ -393,7 +402,7 @@ export const villas: Villa[] = [
     levels: 2,
     shortSpec: '4 Bed · 7,336 sqft · Palm Jumeirah',
     overview: [
-      'Villa O58 is a completed G+1 residence on Frond N, transformed from a traditional Palm Jumeirah villa into a contemporary waterfront home.',
+      'Frond N is a completed G+1 residence on Palm Jumeirah, transformed from a traditional villa into a contemporary waterfront home.',
       'Across 7,336 square feet, four bedrooms and five bathrooms are arranged around soaring glazing, open living spaces and uninterrupted views towards the water.',
       'The 5,000-square-foot plot is shaped for indoor–outdoor living, with a waterfront pool terrace, sunken seating and a calm palette of stone, timber and glass.',
     ],
@@ -786,7 +795,7 @@ export const brands: string[] = [
 ]
 
 export function getVilla(slug: string | undefined): Villa | undefined {
-  return villas.find((v) => v.slug === slug)
+  return villas.find((v) => v.slug === slug || v.aliases?.includes(slug ?? ''))
 }
 
 export function relatedVillas(slug: string, count = 3): Villa[] {
