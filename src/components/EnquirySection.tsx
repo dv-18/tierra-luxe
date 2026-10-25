@@ -40,7 +40,7 @@ export default function EnquirySection({ villaName }: { villaName?: string }) {
         >
           {villaName ? (
             <>
-              Request the brochure for <em className="italic text-gold">{villaName}</em>.
+              Enquire about <em className="italic text-gold">{villaName}</em>.
             </>
           ) : (
             "Let's build something exceptional."
@@ -51,7 +51,7 @@ export default function EnquirySection({ villaName }: { villaName?: string }) {
           <div className="mt-12 max-w-2xl">
             {sent ? (
               <p className="py-8 font-display text-2xl italic text-ivory/90">
-                Thank you — we'll send the {villaName} brochure shortly.
+                Thank you — we'll be in touch about {villaName} shortly.
               </p>
             ) : (
               <form onSubmit={onSubmit} className="grid gap-8 sm:grid-cols-2">
@@ -66,7 +66,7 @@ export default function EnquirySection({ villaName }: { villaName?: string }) {
                     type="submit"
                     className="inline-flex items-center justify-center rounded-full bg-ivory px-8 py-4 text-xs uppercase tracking-[0.2em] text-charcoal transition-colors duration-500 ease-expo hover:bg-gold hover:text-ivory"
                   >
-                    Request Brochure
+                    Send Enquiry
                   </button>
                 </div>
               </form>

@@ -34,8 +34,8 @@ export default function Villas() {
             transition={{ duration: 1, ease: EASE, delay: 0.1 }}
             className="mt-5 max-w-xl text-sm leading-relaxed text-stone md:text-base"
           >
-            A curated collection of villas sourced, redesigned and elevated across the
-            fronds and crescent of Palm Jumeirah.
+            A curated collection of villas transformed across Palm Jumeirah, Jumeirah
+            Golf Estates and other established communities.
           </motion.p>
           <motion.span
             initial={{ scaleX: 0 }}
@@ -59,7 +59,7 @@ export default function Villas() {
                 <div className="relative overflow-hidden rounded-[20px] border border-line">
                   <img
                     src={v.cardImage}
-                    alt={v.name}
+                    alt={v.cardAlt}
                     loading="lazy"
                     className="aspect-[4/3] w-full object-cover transition-transform duration-1200 ease-expo group-hover:scale-105"
                   />

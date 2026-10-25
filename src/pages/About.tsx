@@ -31,10 +31,10 @@ export default function About() {
       <main>
         <Hero />
         <Statement />
-        <MissionVision block={aboutContent.mission} />
         <MissionVision block={aboutContent.vision} />
+        <MissionVision block={aboutContent.mission} />
         <Values />
-        <Vastu />
+        <Holistic />
         <Team />
         <Brands />
       </main>
@@ -302,22 +302,22 @@ function Values() {
   )
 }
 
-/* ------------------------------------------------------ Vastu block */
-function Vastu() {
+/* ------------------------------------------------------ Holistic approach block */
+function Holistic() {
   return (
     <section className="bg-travertine py-28 md:py-36">
       <div className="mx-auto max-w-[1000px] px-6">
         <motion.div {...revealUp} className="mb-8 flex items-center gap-4">
           <span className="h-px w-10 bg-gold" />
           <span className="text-xs uppercase tracking-[0.28em] text-stone">
-            {aboutContent.vastu.eyebrow}
+            {aboutContent.holistic.eyebrow}
           </span>
         </motion.div>
         <motion.h2
           {...revealUp}
           className="font-display text-3xl leading-[1.15] text-charcoal md:text-5xl text-balance"
         >
-          <Emphasis text={aboutContent.vastu.statement} />
+          <Emphasis text={aboutContent.holistic.statement} />
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -326,7 +326,7 @@ function Vastu() {
           transition={{ duration: 1, ease: EASE, delay: 0.15 }}
           className="mt-8 max-w-2xl text-sm leading-relaxed text-stone md:text-base"
         >
-          {aboutContent.vastu.body}
+          {aboutContent.holistic.body}
         </motion.p>
       </div>
     </section>

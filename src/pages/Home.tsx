@@ -3,8 +3,6 @@ import Intro from '../components/Intro'
 import Projects from '../components/Projects'
 import Process from '../components/Process'
 import Experience from '../components/Experience'
-import Marquee from '../components/Marquee'
-import Brands from '../components/Brands'
 import Contact from '../components/Contact'
 
 export default function Home({ ready }: { ready: boolean }) {
@@ -16,8 +14,6 @@ export default function Home({ ready }: { ready: boolean }) {
         <Projects />
         <Process />
         <Experience />
-        <Marquee />
-        <Brands compact />
       </main>
       <Contact />
     </>

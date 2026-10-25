@@ -9,6 +9,20 @@ import BeforeAfterSlider from '../components/BeforeAfterSlider'
 import EnquirySection from '../components/EnquirySection'
 import SiteFooter from '../components/SiteFooter'
 
+const RENDER_NOTE = 'Architectural visualisation — final residence may vary.'
+
+/** Spec facts that exist for this villa, in display order. */
+function villaFacts(villa: Villa): [string, string][] {
+  const facts: [string, string | undefined][] = [
+    ['Bedrooms', villa.bedrooms?.toString()],
+    ['Bathrooms', villa.bathrooms?.toString()],
+    ['Levels', villa.levels],
+    ['Size', villa.sizeSqft && `${villa.sizeSqft} sq ft`],
+    ['Status', villa.status],
+  ]
+  return facts.filter((f): f is [string, string] => Boolean(f[1]))
+}
+
 export default function VillaDetail() {
   const { slug } = useParams()
   const villa = getVilla(slug)
@@ -43,7 +57,6 @@ export default function VillaDetail() {
         <PinnedGlide villa={villa} />
         <VillaGallery villa={villa} />
         <Accordion villa={villa} />
-        {villa.proximity.length > 0 && <Proximity villa={villa} />}
       </main>
       {villa.status !== 'Sold' && <EnquirySection villaName={villa.name} />}
       <Related slug={villa.slug} />
@@ -91,22 +104,18 @@ function VillaHero({ villa }: { villa: Villa }) {
           {villa.location}
         </motion.p>
       </div>
+      {villa.renders && (
+        <p className="absolute bottom-6 right-6 z-10 text-[10px] uppercase tracking-[0.18em] text-stone/80 md:right-10">
+          {RENDER_NOTE}
+        </p>
+      )}
     </section>
   )
 }
 
 /* ---------------------------------------------------- Overview + specs */
 function Overview({ villa }: { villa: Villa }) {
-  const specs: [string, string][] = [
-    ['Address', villa.location],
-    ['Bedrooms', String(villa.bedrooms)],
-    ['Bathrooms', String(villa.bathrooms)],
-    ['Levels', String(villa.levels)],
-    ['Built-up Area', `${villa.builtUpSqft} sq.ft`],
-    ['Plot Area', `${villa.plotSqft} sq.ft`],
-    ...(villa.price ? ([['Expected Price', villa.price]] as [string, string][]) : []),
-    ['Status', villa.status],
-  ]
+  const specs = villaFacts(villa)
 
   return (
     <section className="bg-travertine py-24 md:py-32">
@@ -210,16 +219,26 @@ function ProjectFilm({ villa }: { villa: Villa }) {
 
 /* --------------------------------------------- ★ Pinned-image glide */
 function StatOverlay({ villa }: { villa: Villa }) {
+  // Lead with size when known, otherwise bedrooms, otherwise the location.
+  const [label, value, unit] = villa.sizeSqft
+    ? ['Size', villa.sizeSqft, 'Sq.ft.']
+    : villa.bedrooms
+      ? ['Bedrooms', String(villa.bedrooms), '']
+      : ['Location', villa.location, '']
   return (
-    <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center text-ivory">
-      <span className="section-label text-xs text-ivory/80 md:text-sm">
-        Enclosed Area
-      </span>
-      <span className="mt-3 font-display text-7xl leading-none md:text-[10rem]">
-        {villa.enclosedAreaSqft}
-        <sup className="ml-2 align-top font-body text-base font-light tracking-wide text-ivory/80 md:text-xl">
-          Sq.ft.
-        </sup>
+    <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-ivory">
+      <span className="section-label text-xs text-ivory/80 md:text-sm">{label}</span>
+      <span
+        className={`mt-3 font-display leading-none ${
+          value.length > 8 ? 'text-5xl md:text-8xl' : 'text-7xl md:text-[10rem]'
+        }`}
+      >
+        {value}
+        {unit && (
+          <sup className="ml-2 align-top font-body text-base font-light tracking-wide text-ivory/80 md:text-xl">
+            {unit}
+          </sup>
+        )}
       </span>
     </div>
   )
@@ -284,11 +303,19 @@ function PinnedGlide({ villa }: { villa: Villa }) {
     </GlidePanel>
   )
 
+  const numbers = [
+    villa.bedrooms && `${villa.bedrooms} bedrooms`,
+    villa.bathrooms && `${villa.bathrooms} bathrooms`,
+    villa.levels && `${villa.levels} ${villa.levels === '1' ? 'level' : 'levels'}`,
+  ].filter(Boolean)
+
   const panelB = (
     <GlidePanel>
-      <p className="section-label mb-4 text-xs text-stone">By the Numbers</p>
+      <p className="section-label mb-4 text-xs text-stone">
+        {numbers.length > 0 ? 'By the Numbers' : villa.status}
+      </p>
       <p className="font-display text-2xl leading-snug text-charcoal md:text-3xl">
-        {villa.bedrooms} bedrooms · {villa.bathrooms} bathrooms · {villa.levels} levels
+        {numbers.length > 0 ? numbers.join(' · ') : villa.location}
       </p>
       <p className="mt-6 text-sm leading-relaxed text-stone md:text-base">
         {villa.overview[villa.overview.length - 1]}
@@ -377,7 +404,7 @@ function VillaGallery({ villa }: { villa: Villa }) {
             >
               <img
                 src={image}
-                alt={`${villa.name} ${index === 0 ? 'living space' : `gallery view ${index + 1}`}`}
+                alt={`${villa.name} gallery view ${index + 1}`}
                 loading="lazy"
                 className={`w-full object-cover ${
                   index === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'
@@ -407,6 +434,12 @@ function VillaGallery({ villa }: { villa: Villa }) {
               </motion.figure>
             ))}
           </div>
+        )}
+
+        {villa.renders && (
+          <p className="mt-6 text-[11px] uppercase tracking-[0.16em] text-stone/70">
+            {RENDER_NOTE}
+          </p>
         )}
       </div>
     </section>
@@ -477,15 +510,9 @@ function Accordion({ villa }: { villa: Villa }) {
 
 /* --------------------------------------- Experience the Transformation */
 function Transformation({ villa }: { villa: Villa }) {
-  const transformations =
-    villa.transformations && villa.transformations.length > 0
-      ? villa.transformations
-      : [
-          {
-            beforeImage: villa.beforeImage,
-            afterImage: villa.afterImage,
-          },
-        ]
+  // Only real before/after pairs earn this section.
+  const transformations = (villa.transformations ?? []).filter((t) => t.beforeImage)
+  if (transformations.length === 0) return null
 
   return (
     <section className="bg-charcoal py-16 text-ivory sm:py-20 md:py-28">
@@ -512,7 +539,7 @@ function Transformation({ villa }: { villa: Villa }) {
             reconsidered, then finished by hand.
           </p>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ivory/70 md:text-base">
-            Drag each slider to compare the original villa with the completed{' '}
+            Drag {transformations.length > 1 ? 'each slider' : 'the slider'} to compare the original villa with the completed{' '}
             <span className="text-ivory">{villa.name}</span> residence.
           </p>
         </motion.div>
@@ -527,62 +554,13 @@ function Transformation({ villa }: { villa: Villa }) {
               {item.label && (
                 <p className="section-label mb-4 text-xs text-ivory/60">{item.label}</p>
               )}
-              {item.beforeImage ? (
-                <BeforeAfterSlider
-                  before={item.beforeImage}
-                  after={item.afterImage}
-                  beforeAlt={`${villa.name} before redevelopment, view ${index + 1}`}
-                  afterAlt={`${villa.name} after redevelopment, view ${index + 1}`}
-                />
-              ) : (
-                <div className="relative overflow-hidden rounded-[20px] border border-ivory/10">
-                  <img
-                    src={item.afterImage}
-                    alt={`${villa.name} completed transformation, view ${index + 1}`}
-                    loading="lazy"
-                    className="aspect-[4/3] w-full object-cover"
-                  />
-                  <span className="absolute right-5 top-5 rounded-md bg-charcoal/70 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-ivory backdrop-blur-sm">
-                    After
-                  </span>
-                </div>
-              )}
+              <BeforeAfterSlider
+                before={item.beforeImage!}
+                after={item.afterImage}
+                beforeAlt={`${villa.name} before redevelopment, view ${index + 1}`}
+                afterAlt={`${villa.name} after redevelopment, view ${index + 1}`}
+              />
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------- Proximity */
-function Proximity({ villa }: { villa: Villa }) {
-  return (
-    <section className="bg-charcoal py-20 text-ivory">
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <div className="mb-10 flex items-center gap-4">
-          <span className="h-px w-10 bg-gold" />
-          <span className="section-label text-xs text-ivory/60">Proximity</span>
-        </div>
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
-          {villa.proximity.map((p) => (
-            <motion.div
-              key={p.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.7, ease: EASE }}
-            >
-              <p className="font-display text-4xl text-ivory md:text-5xl">
-                {p.minutes}
-                <span className="ml-2 font-body text-xs uppercase tracking-[0.16em] text-gold">
-                  min
-                </span>
-              </p>
-              <p className="mt-2 text-xs uppercase tracking-[0.16em] text-ivory/60">
-                {p.label}
-              </p>
-            </motion.div>
           ))}
         </div>
       </div>
@@ -592,21 +570,21 @@ function Proximity({ villa }: { villa: Villa }) {
 
 /* ------------------------------------------------- Related villas */
 function Related({ slug }: { slug: string }) {
-  const items = relatedVillas(slug, 3)
+  const items = relatedVillas(slug, 2)
   return (
     <section className="bg-travertine py-24 md:py-28">
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+      <div className="mx-auto max-w-[900px] px-6 md:px-10">
         <div className="mb-12 flex items-center gap-4">
           <span className="h-px w-10 bg-gold" />
           <span className="section-label text-xs text-stone">More Residences</span>
         </div>
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2">
           {items.map((v) => (
             <Link key={v.slug} to={`/villas/${v.slug}`} className="group block">
               <div className="relative overflow-hidden rounded-[20px] border border-line">
                 <img
                   src={v.cardImage}
-                  alt={v.name}
+                  alt={v.cardAlt}
                   loading="lazy"
                   className="aspect-[4/3] w-full object-cover transition-transform duration-1200 ease-expo group-hover:scale-105"
                 />

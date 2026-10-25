@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { hero } from '../content'
 import { EASE } from '../lib/motion'
 
-const CHAPTER_MS = 7000
-
 export default function Hero({ ready }: { ready: boolean }) {
-  const chapters = hero.chapters
-  const [active, setActive] = useState(0)
   const [showVideo, setShowVideo] = useState(false)
 
   // Keep YouTube's startup overlays behind the poster while the player initializes.
@@ -16,18 +13,6 @@ export default function Hero({ ready }: { ready: boolean }) {
     const timer = window.setTimeout(() => setShowVideo(true), 3500)
     return () => window.clearTimeout(timer)
   }, [])
-
-  // Rotate the three headline chapters over the same background video.
-  useEffect(() => {
-    if (!ready) return
-
-    const id = window.setTimeout(
-      () => setActive((i) => (i + 1) % chapters.length),
-      CHAPTER_MS,
-    )
-
-    return () => window.clearTimeout(id)
-  }, [active, ready, chapters.length])
 
   const container = {
     hidden: {},
@@ -71,7 +56,7 @@ export default function Hero({ ready }: { ready: boolean }) {
     },
   }
 
-  const current = chapters[active]
+  const current = hero.chapter
 
   return (
     <section
@@ -82,7 +67,7 @@ export default function Hero({ ready }: { ready: boolean }) {
       <div className="absolute inset-0 overflow-hidden bg-charcoal">
         {/* Fallback image displayed while YouTube loads */}
         <img
-          src={chapters[0].poster}
+          src={current.poster}
           alt=""
           aria-hidden="true"
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
@@ -113,43 +98,34 @@ export default function Hero({ ready }: { ready: boolean }) {
       {/* Hero content */}
       <div className="relative z-10 mx-auto flex h-full max-w-[1400px] flex-col justify-end px-6 pb-28 md:px-10 md:pb-32">
         <div className="max-w-4xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              variants={container}
-              initial="hidden"
-              animate={ready ? 'show' : 'hidden'}
-              exit={{
-                opacity: 0,
-                transition: {
-                  duration: 0.4,
-                },
-              }}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate={ready ? 'show' : 'hidden'}
+          >
+            <motion.p
+              variants={soft}
+              className="mb-5 text-xs uppercase tracking-[0.3em] text-ivory/80"
             >
-              <motion.p
-                variants={soft}
-                className="mb-5 text-xs uppercase tracking-[0.3em] text-ivory/80"
-              >
-                {current.eyebrow}
-              </motion.p>
+              {current.eyebrow}
+            </motion.p>
 
-              <h1 className="font-display text-5xl italic leading-[0.95] text-ivory md:text-7xl lg:text-8xl">
-                {current.title.split(' ').map((wordText, wordIndex) => (
-                  <span
-                    key={wordIndex}
-                    className="inline-block overflow-hidden align-bottom"
+            <h1 className="font-display text-5xl italic leading-[0.95] text-ivory md:text-7xl lg:text-8xl">
+              {current.title.split(' ').map((wordText, wordIndex) => (
+                <span
+                  key={wordIndex}
+                  className="inline-block overflow-hidden align-bottom"
+                >
+                  <motion.span
+                    variants={word}
+                    className="inline-block pr-[0.25em]"
                   >
-                    <motion.span
-                      variants={word}
-                      className="inline-block pr-[0.25em]"
-                    >
-                      {wordText}
-                    </motion.span>
-                  </span>
-                ))}
-              </h1>
-            </motion.div>
-          </AnimatePresence>
+                    {wordText}
+                  </motion.span>
+                </span>
+              ))}
+            </h1>
+          </motion.div>
 
           {/* Supporting text and buttons */}
           <motion.div
@@ -178,8 +154,8 @@ export default function Hero({ ready }: { ready: boolean }) {
                 {hero.ctas.primary.label}
               </a>
 
-              <a
-                href={hero.ctas.secondary.href}
+              <Link
+                to={hero.ctas.secondary.to}
                 className="link-underline group inline-flex items-center gap-2 rounded-full border border-ivory/50 px-7 py-3 text-xs uppercase tracking-[0.18em] text-ivory transition-colors duration-500 ease-expo hover:border-ivory"
               >
                 {hero.ctas.secondary.label}
@@ -188,58 +164,10 @@ export default function Hero({ ready }: { ready: boolean }) {
                   strokeWidth={1.5}
                   className="h-4 w-4 text-gold transition-transform duration-500 ease-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
-      </div>
-
-      {/* Headline navigation */}
-      <div className="absolute bottom-8 right-6 z-10 flex items-center gap-5 md:right-10">
-        <div className="flex items-center gap-3">
-          {chapters.map((_, chapterIndex) => (
-            <button
-              key={chapterIndex}
-              type="button"
-              onClick={() => setActive(chapterIndex)}
-              aria-label={`Show headline ${chapterIndex + 1}`}
-              className="group relative flex flex-col items-center"
-            >
-              <span
-                className={`h-1.5 w-1.5 rounded-full transition-colors duration-500 ${
-                  chapterIndex === active
-                    ? 'bg-gold'
-                    : 'bg-ivory/40 group-hover:bg-ivory/70'
-                }`}
-              />
-
-              {chapterIndex === active && (
-                <span className="absolute -bottom-2 h-px w-8 overflow-hidden">
-                  <motion.span
-                    key={active}
-                    className="block h-full w-full origin-left bg-gold"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{
-                      duration: CHAPTER_MS / 1000,
-                      ease: 'linear',
-                    }}
-                  />
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-
-        <p className="font-display text-lg tabular-nums text-ivory/70">
-          <span className="text-gold">
-            {String(active + 1).padStart(2, '0')}
-          </span>
-
-          <span className="mx-1 text-ivory/40">—</span>
-
-          {String(chapters.length).padStart(2, '0')}
-        </p>
       </div>
 
       {/* Scroll indicator */}
