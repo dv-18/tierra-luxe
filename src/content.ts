@@ -19,28 +19,21 @@ import { HeartHandshake, Compass, Gem, LineChart } from 'lucide-react'
 const img = (id: string, w = 1600) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=75&auto=format&fit=crop`
 
-/* Verified image pool (swap for Tierra's own photography). */
+/* Stock placeholder pool — used only by Sienna until its own photography exists. */
 const IMG = {
   poolDusk: '1613490493576-7fde63acd811',
   whiteFacade: '1600585154340-be6161a56a0c',
   livingRoom: '1600596542815-ffad4c1539a9',
   sereneInterior: '1600607687939-ce8a6c25118c',
-  whiteHouse: '1512917774080-9991f1c4c750',
   warmVilla: '1613977257363-707ba9348227',
-  interiorWood: '1600047509807-ba8f99d2cdde',
   terracePool: '1580587771525-78b9dba3b914',
-  aerialCoast: '1512453979798-5ea266f8880c',
   interiorStone: '1582268611958-ebfd161ef9cf',
-  kitchen: '1600210492486-724fe5c67fb0',
-  poolside: '1602343168117-bb8ffe3e2e9f',
-  coastalVilla: '1564013799919-ab600027ffc6',
-  house: '1570129477492-45c003edd2be',
-  // "Before" — dated / pre-redevelopment placeholders for the transformation slider
-  before1: '1583608205776-bfd35f0d9f83', // traditional villa + palms
-  before2: '1576941089067-2de3c901e126', // white house, red roof
-  before3: '1568605114967-8130f3a36994', // traditional chalet at dusk
-  before4: '1605146769289-440113cc3d00', // suburban brick home
 }
+
+/* Project media folders (public/projects). */
+const FO = '/projects/frond-o'
+const FP = '/projects/frond-p'
+const RW = '/projects/redwood'
 
 export const site = {
   brand: 'TIERRA LUXE',
@@ -84,7 +77,7 @@ export const hero = {
   chapter: {
     eyebrow: 'A Residential Transformation Studio',
     title: 'Transforming Villas Into Exceptional Living Spaces',
-    poster: '/projects/frond-o/night-exterior.webp',
+    poster: `${FO}/night-exterior.webp`,
     alt: 'Frond O villa exterior at night on Palm Jumeirah',
   } as HeroChapter,
 }
@@ -154,10 +147,6 @@ export interface Villa {
   pullQuote: string
   sections: VillaSection[] // accordion: Architecture / Interior / Exterior & Landscape
 }
-
-const FO = '/projects/frond-o'
-const FP = '/projects/frond-p'
-const RW = '/projects/redwood'
 
 export const villas: Villa[] = [
   {
@@ -466,31 +455,31 @@ export const experience = {
   eyebrow: 'Why Tierra',
   title: 'The Tierra Standard',
   // secondary parallax layers behind the active pillar image
-  gallery: [img(IMG.interiorStone, 1400), img(IMG.interiorWood, 1400)],
+  gallery: [`${FO}/living-room.webp`, `${RW}/living-room.webp`],
   pillars: [
     {
       icon: HeartHandshake,
       title: 'Family Invested',
       body: 'Family invested in every villa. Every decision is made with the same care we would apply if we were moving in ourselves.',
-      image: img(IMG.warmVilla, 1600),
+      image: `${FO}/after-exterior.webp`,
     },
     {
       icon: Compass,
       title: 'Harmony by Design',
       body: 'A holistic approach to layout, light and flow, so every home feels balanced by design — long before it is beautiful.',
-      image: img(IMG.sereneInterior, 1600),
+      image: `${RW}/family-room.webp`,
     },
     {
       icon: Gem,
       title: 'Craft Without Compromise',
       body: 'Architectural and interior excellence in every finish and detail, delivered with carefully selected architects, designers and specialist craft partners.',
-      image: img(IMG.livingRoom, 1600),
+      image: `${FO}/kitchen.webp`,
     },
     {
       icon: LineChart,
       title: 'Transparent Participation',
       body: 'Where investment is involved, participation is structured transparently — clear, documented and professional for every partner in a project.',
-      image: img(IMG.terracePool, 1600),
+      image: `${RW}/garden-front.webp`,
     },
   ] as Pillar[],
 }
@@ -499,8 +488,8 @@ export const contact = {
   eyebrow: 'Begin the Conversation',
   title: "Let's build something exceptional.",
   // faint background — swap for a looped aerial villa clip if desired
-  bgPoster: img(IMG.aerialCoast, 2000),
-  bgAlt: 'Aerial view of a coastline at golden hour',
+  bgPoster: `${FO}/night-exterior.webp`,
+  bgAlt: 'Frond O villa exterior at night on Palm Jumeirah',
   interests: ['Buying', 'Selling', 'Investing', 'Partnering with us'],
   socials: [
     // FLAG: placeholder handles — replace with real profile URLs before launch.
@@ -517,8 +506,8 @@ export const contact = {
  * ------------------------------------------------------------------ */
 
 export const aboutContent = {
-  heroImage: img(IMG.warmVilla, 2400),
-  heroAlt: 'Warmly lit luxury villa exterior at golden hour',
+  heroImage: `${FO}/pool-terrace.webp`,
+  heroAlt: 'Frond O waterfront pool terrace on Palm Jumeirah',
   label: 'About Us',
   statementHeading: 'More Than a Home',
   statementBody:
@@ -527,14 +516,14 @@ export const aboutContent = {
   vision: {
     label: 'Vision',
     body: 'To transform overlooked villas into exceptional living environments — homes that are as considered in how they feel as they are beautiful in how they look.',
-    image: img(IMG.terracePool, 1600),
-    alt: 'Luxury villa terrace opening onto a landscaped pool',
+    image: `${FP}/beach-terrace.webp`,
+    alt: 'Frond P beach-side terrace and pool on Palm Jumeirah',
   },
   mission: {
     label: 'Mission',
     body: 'To build exceptional homes while creating a professional, transparent and rewarding experience for every partner in a project — residents, investors, architects, designers, contractors and specialist craft partners alike.',
-    image: img(IMG.sereneInterior, 1600),
-    alt: 'Serene, light-filled interior with natural materials',
+    image: `${FO}/living-room.webp`,
+    alt: 'Frond O double-height living room overlooking the water',
   },
   values: [
     {
