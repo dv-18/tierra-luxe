@@ -269,12 +269,12 @@ export const villas: Villa[] = [
     designCredit: 'Interior and landscape design by Turnkey Interior Design.',
     // Landscape renders are full resolution; interior renders are cropped
     // from presentation screenshots — swap for the originals when available.
-    heroImage: `${SN}/pergola-dining.webp`,
-    cardImage: `${SN}/pool-pergola.webp`,
-    cardAlt: 'Sienna pool terrace and timber pergola in Jumeirah Golf Estates',
+    heroImage: `${SN}/facade.webp`,
+    cardImage: `${SN}/facade.webp`,
+    cardAlt: 'Sienna travertine facade lit at dusk in Jumeirah Golf Estates',
     // A curated edit — one image per space, each used once on the page.
     gallery: [
-      `${SN}/pool-pergola.webp`,
+      `${SN}/pergola-dining.webp`,
       `${SN}/living-garden.webp`,
       `${SN}/dining-art.webp`,
       `${SN}/kitchen-island.webp`,
