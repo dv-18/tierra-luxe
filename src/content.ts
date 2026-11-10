@@ -600,14 +600,18 @@ export const brandGroups: BrandGroup[] = [
     items: [
       'Minotti',
       'Giorgetti',
+      'Molteni&C',
       'Poltrona Frau',
       'Gallotti & Radice',
       'Porada',
       'Ceccotti',
+      'Rugiano',
+      'Natuzzi',
       'Arflex',
       'Baxter',
       'Secolo',
       'Ditre Italia',
+      'Frato',
       'Roche Bobois',
       'Bonaldo',
       'Artifort',
@@ -616,9 +620,27 @@ export const brandGroups: BrandGroup[] = [
   },
   {
     category: 'Lighting',
-    items: ['Apparatus', 'Alain Ellouz', 'Henge', 'Artemide', 'Allied Maker', 'Articolo', 'Trizo21', 'A-N-D'],
+    items: [
+      'Apparatus',
+      'Alain Ellouz',
+      'Henge',
+      'Artemide',
+      'iGuzzini',
+      'Allied Maker',
+      'Articolo',
+      'Rakumba',
+      'New Works',
+      'Audo',
+      'Trizo21',
+      'A-N-D',
+    ],
   },
-  { category: 'Kitchen, Wardrobes & Appliances', items: ['Castagna Cucine', 'Rimadesio', 'Gaggenau', 'Miele'] },
+  {
+    category: 'Kitchen, Wardrobes & Appliances',
+    items: ['Castagna Cucine', 'Rimadesio', 'Lema', 'Gaggenau', 'Miele'],
+  },
+  { category: 'Bathroom', items: ['THG Paris', 'Flaminia'] },
   { category: 'Specialist Craft', items: ['Fazioli', 'Mohebban'] },
 ]
+
 
