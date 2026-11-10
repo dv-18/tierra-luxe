@@ -439,6 +439,7 @@ function VillaGallery({ villa }: { villa: Villa }) {
         {villa.renders && (
           <p className="mt-6 text-[11px] uppercase tracking-[0.16em] text-stone/70">
             {RENDER_NOTE}
+            {villa.interiorsBy && ` Interiors by ${villa.interiorsBy}.`}
           </p>
         )}
       </div>

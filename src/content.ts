@@ -3,37 +3,24 @@
  *
  * ⚠️ NEEDS-CONFIRMATION — search this file for "FLAG:" to find every place
  * that holds a placeholder pending real business data:
- *   - Sienna: location, specs and photography (stock placeholders).
+ *   - Sienna: location and specs; interior renders are screenshot crops.
  *   - Frond P / Redwood sizes, Redwood bathroom count (omitted until known).
  *   - The brand partner list (no names until verified).
  *   - Contact email + social handles.
  *   - Team names and photography.
  *
- * Frond O uses the project's own photography; Frond P and Redwood use
- * architectural renders (flagged with `renders: true`).
+ * Frond O uses the project's own photography; Frond P, Sienna and Redwood
+ * use architectural renders (flagged with `renders: true`).
  */
 
 import type { LucideIcon } from 'lucide-react'
 import { HeartHandshake, Compass, Gem, LineChart } from 'lucide-react'
 
-const img = (id: string, w = 1600) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&q=75&auto=format&fit=crop`
-
-/* Stock placeholder pool — used only by Sienna until its own photography exists. */
-const IMG = {
-  poolDusk: '1613490493576-7fde63acd811',
-  whiteFacade: '1600585154340-be6161a56a0c',
-  livingRoom: '1600596542815-ffad4c1539a9',
-  sereneInterior: '1600607687939-ce8a6c25118c',
-  warmVilla: '1613977257363-707ba9348227',
-  terracePool: '1580587771525-78b9dba3b914',
-  interiorStone: '1582268611958-ebfd161ef9cf',
-}
-
 /* Project media folders (public/projects). */
 const FO = '/projects/frond-o'
 const FP = '/projects/frond-p'
 const RW = '/projects/redwood'
+const SN = '/projects/sienna'
 
 export const site = {
   brand: 'TIERRA LUXE',
@@ -138,6 +125,7 @@ export interface Villa {
   transformations?: VillaTransformation[] // before/after slider renders only when a beforeImage exists
   video?: VillaVideo
   renders?: boolean // true → images are architectural visualisations, show disclaimer
+  interiorsBy?: string // interior design studio credit, shown with the renders note
   sizeSqft?: string // built-up area, e.g. "7,336"
   bedrooms?: number
   bathrooms?: number
@@ -276,37 +264,48 @@ export const villas: Villa[] = [
     status: 'In Development',
     // FLAG: real location not confirmed — kept general on purpose.
     location: 'Dubai',
-    // FLAG: stock placeholder photography — replace with Sienna's own imagery.
-    heroImage: img(IMG.poolDusk, 2200),
-    cardImage: img(IMG.warmVilla, 1600),
-    cardAlt: 'Sienna villa exterior',
-    gallery: [img(IMG.livingRoom, 1600), img(IMG.interiorStone, 1600), img(IMG.terracePool, 1600)],
+    renders: true,
+    interiorsBy: 'Turnkey Interior Design',
+    // Interior renders cropped from Turnkey's presentation screenshots —
+    // swap for the original high-resolution files when available.
+    heroImage: `${SN}/living-room.webp`,
+    cardImage: `${SN}/dining-art.webp`,
+    cardAlt: 'Sienna dining room with round marble table and travertine walls',
+    gallery: [
+      `${SN}/living-garden.webp`,
+      `${SN}/lounge.webp`,
+      `${SN}/dining-art.webp`,
+      `${SN}/kitchen-island.webp`,
+      `${SN}/family-bar.webp`,
+      `${SN}/lobby-atrium.webp`,
+    ],
+    portraitGallery: [`${SN}/corridor.webp`, `${SN}/lift-lobby.webp`, `${SN}/powder-room.webp`],
     // FLAG: bedrooms / bathrooms / levels / size not confirmed — omitted.
     shortSpec: 'In Development · Dubai', // FLAG: update once specs are confirmed
-    // FLAG: provisional copy — confirm with the project details.
     overview: [
-      'Sienna is a villa currently in development, being reimagined from the structure outward with architecture, interiors and landscape considered as one.',
-      'Further details of the residence will be shared as the project progresses.',
+      'Sienna is being reimagined around a calm, tactile palette — travertine and pale stone set against dark timber, with feature walls of deep red marble.',
+      'A double-height entrance lobby, a sculptural spiral stair and a lift connect the levels, opening onto living, dining and family spaces that look out through full-height glazing to the garden.',
+      'An open kitchen, a family lounge with its own bar and a sequence of quietly detailed rooms make it a home designed for both everyday living and entertaining.',
     ],
-    pullQuote: 'A residence being reimagined from the structure outward.',
+    pullQuote: 'Travertine, timber and red marble — warmth composed with restraint.',
     sections: [
       {
         n: 1,
         heading: 'The Architecture',
-        body: 'Proportion, light and flow are being reconsidered before a single finish is chosen.',
-        image: img(IMG.whiteFacade, 1600),
+        body: 'A double-height entrance lobby sets the tone, with a cascade of pendant light and a full-height wall of red marble rising alongside a sculptural spiral stair.',
+        image: `${SN}/lobby-atrium.webp`,
       },
       {
         n: 2,
         heading: 'The Interior',
-        body: 'Interiors are being composed with carefully selected design and craft partners, in a quiet palette of natural materials.',
-        image: img(IMG.sereneInterior, 1600),
+        body: 'Fluted travertine columns, dark timber joinery and soft concealed lighting run through the kitchen, dining and living spaces, giving each room a calm, crafted continuity.',
+        image: `${SN}/kitchen.webp`,
       },
       {
         n: 3,
         heading: 'Exterior & Landscape',
-        body: 'Outdoor spaces are being shaped to extend the living areas, with water, shade and considered planting.',
-        image: img(IMG.terracePool, 1600),
+        body: 'Full-height glazing and sheer drapery open the living spaces to the garden, so greenery and daylight become part of the interior.',
+        image: `${SN}/living-garden.webp`,
       },
     ],
   },
