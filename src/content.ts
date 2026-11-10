@@ -564,12 +564,23 @@ export const aboutContent = {
       'We design with a *holistic approach* — light, proportion and material in dialogue with how people actually live — so a home feels *balanced* long before it is beautiful.',
     body: 'Orientation, natural light, material and flow are considered together, informed by time-tested principles of balance as much as by architecture itself. It is not decoration; it is the quiet order beneath a home that simply feels right to live in.',
   },
-  // FLAG: placeholder names/roles — replace with real leadership + photography.
-  team: [
-    { name: 'Founder', role: 'Founder & Principal' },
-    { name: 'Managing Director', role: 'Managing Director' },
-    { name: 'Head of Design', role: 'Head of Design' },
-  ],
+  // Background drawn from public profiles (Hundred founder interview);
+  // FLAG: have Parag review the wording before wider launch.
+  founder: {
+    name: 'Parag Gathani',
+    role: 'Founder',
+    image: '/team/parag-gathani.webp',
+    alt: 'Portrait of Parag Gathani, founder of Tierra Luxe',
+    bio: [
+      'Parag Gathani founded Tierra Luxe to bring the discipline of a long career in business to the homes his family invests in.',
+      'He began working at eighteen, studying law alongside, and has spent more than two decades as a legal adviser to companies. He is also the founder and CEO of Hundred, a Dubai-based consumer technology company.',
+      'That combination of a lawyer’s rigour and a founder’s eye for value shapes how Tierra Luxe works: each villa is assessed with care, each partnership is structured transparently, and every decision is made as if the family were moving in.',
+    ],
+    completedLabel: 'Completed Work',
+    completedSlug: 'frond-o-palm-jumeirah',
+    completedSummary:
+      'A traditional Palm Jumeirah villa transformed into a contemporary four-bedroom waterfront residence of 7,336 sq ft. Completed and sold.',
+  },
   brandsHeading: 'Brands We Use',
 }
 

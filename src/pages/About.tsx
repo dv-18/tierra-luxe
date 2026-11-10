@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { motion } from 'framer-motion'
-import { aboutContent } from '../content'
+import { Link } from 'react-router-dom'
+import { ArrowUpRight } from 'lucide-react'
+import { aboutContent, getVilla } from '../content'
 import { EASE, prefersReducedMotion, revealUp } from '../lib/motion'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 import Brands from '../components/Brands'
@@ -335,38 +337,79 @@ function Holistic() {
 
 /* ------------------------------------------------------------ Team */
 function Team() {
+  const f = aboutContent.founder
+  const completed = getVilla(f.completedSlug)
+
   return (
     <section className="bg-sand py-24 md:py-32">
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <div className="mb-14 flex items-center gap-4">
           <span className="h-px w-10 bg-gold" />
-          <span className="section-label text-xs text-stone">The Family</span>
+          <span className="section-label text-xs text-stone">The Founder</span>
         </div>
-        <div className="grid gap-8 md:grid-cols-3">
-          {aboutContent.team.map((m, i) => {
-            const initials = m.name
-              .split(' ')
-              .map((s) => s[0])
-              .join('')
-            return (
-              <motion.div
-                key={m.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.9, ease: EASE, delay: i * 0.1 }}
-                className="rounded-[24px] border border-line bg-ivory p-8"
+
+        <div className="grid gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.9, ease: EASE }}
+            className="overflow-hidden rounded-[24px] border border-line"
+          >
+            <img
+              src={f.image}
+              alt={f.alt}
+              loading="lazy"
+              className="aspect-[4/5] w-full object-cover object-top"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
+            className="flex flex-col justify-center"
+          >
+            <h3 className="font-display text-4xl text-charcoal md:text-5xl">{f.name}</h3>
+            <p className="mt-2 section-label text-[11px] text-stone">{f.role}</p>
+
+            <div className="mt-8 space-y-5 text-sm leading-relaxed text-stone md:text-base">
+              {f.bio.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+
+            {completed && (
+              <Link
+                to={`/villas/${completed.slug}`}
+                className="group relative mt-10 flex flex-col gap-4 rounded-[20px] sm:flex-row sm:items-center sm:gap-5 border border-line bg-ivory p-4 transition-colors duration-500 ease-expo hover:border-gold/60"
               >
-                <div className="mb-6 grid aspect-[4/5] w-full place-items-center rounded-[16px] bg-sand">
-                  <span className="font-display text-6xl italic text-stone/50">
-                    {initials}
-                  </span>
+                <img
+                  src={completed.cardImage}
+                  alt={completed.cardAlt}
+                  loading="lazy"
+                  className="aspect-[16/9] w-full shrink-0 rounded-[12px] object-cover sm:aspect-auto sm:h-24 sm:w-32"
+                />
+                <div className="min-w-0 flex-1 sm:pr-2">
+                  <p className="section-label text-[10px] text-stone">{f.completedLabel}</p>
+                  <p className="mt-1 font-display text-2xl text-charcoal">
+                    {completed.name}
+                    <span className="block text-xs uppercase tracking-[0.16em] text-stone sm:ml-2 sm:inline">
+                      {completed.location} · {completed.status}
+                    </span>
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-stone md:text-sm">
+                    {f.completedSummary}
+                  </p>
                 </div>
-                <h3 className="font-display text-2xl text-charcoal">{m.name}</h3>
-                <p className="mt-1 section-label text-[11px] text-stone">{m.role}</p>
-              </motion.div>
-            )
-          })}
+                <ArrowUpRight
+                  strokeWidth={1.5}
+                  className="absolute right-4 top-4 h-4 w-4 shrink-0 text-gold transition-transform sm:static duration-500 ease-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </Link>
+            )}
+          </motion.div>
         </div>
       </div>
     </section>
