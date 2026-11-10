@@ -270,8 +270,8 @@ export const villas: Villa[] = [
     // Landscape renders are full resolution; interior renders are cropped
     // from presentation screenshots — swap for the originals when available.
     heroImage: `${SN}/pergola-dining.webp`,
-    cardImage: `${SN}/dining-art.webp`,
-    cardAlt: 'Sienna dining room with round marble table and travertine walls',
+    cardImage: `${SN}/pool-pergola.webp`,
+    cardAlt: 'Sienna pool terrace and timber pergola in Jumeirah Golf Estates',
     // A curated edit — one image per space, each used once on the page.
     gallery: [
       `${SN}/pool-pergola.webp`,
