@@ -573,7 +573,7 @@ export const aboutContent = {
     alt: 'Portrait of Parag Gathani, founder of Tierra Luxe',
     bio: [
       'Parag Gathani founded Tierra Luxe to bring the discipline of a long career in business to the homes his family invests in.',
-      'He began working at eighteen, studying law alongside, and has spent more than two decades as a legal adviser to companies. He is also the founder and CEO of Hundred, a Dubai-based consumer technology company.',
+      'He began working at eighteen, studying law alongside, and has spent more than two decades as a legal adviser to companies. He previously founded and led Hundred, a Dubai-based consumer technology company.',
       'That combination of a lawyer’s rigour and a founder’s eye for value shapes how Tierra Luxe works: each villa is assessed with care, each partnership is structured transparently, and every decision is made as if the family were moving in.',
     ],
     completedLabel: 'Completed Work',
