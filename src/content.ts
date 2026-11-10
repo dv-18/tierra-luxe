@@ -268,11 +268,11 @@ export const villas: Villa[] = [
     designCredit: 'Interior and landscape design by Turnkey Interior Design.',
     // Landscape renders are full resolution; interior renders are cropped
     // from presentation screenshots — swap for the originals when available.
-    heroImage: `${SN}/pool-pergola.webp`,
+    heroImage: `${SN}/garden-path.webp`,
     cardImage: `${SN}/dining-art.webp`,
     cardAlt: 'Sienna dining room with round marble table and travertine walls',
     gallery: [
-      `${SN}/garden-path.webp`,
+      `${SN}/garden-walk.webp`,
       `${SN}/living-garden.webp`,
       `${SN}/lounge.webp`,
       `${SN}/dining-art.webp`,
@@ -289,8 +289,8 @@ export const villas: Villa[] = [
       `${SN}/basement-stair.webp`,
       `${SN}/art-wall.webp`,
       `${SN}/pergola-dining.webp`,
-      `${SN}/garden-walk.webp`,
       `${SN}/pool-pergola.webp`,
+      `${SN}/garden-path.webp`,
     ],
     portraitGallery: [`${SN}/corridor.webp`, `${SN}/lift-lobby.webp`, `${SN}/powder-room.webp`],
     // FLAG: bedrooms / bathrooms / levels / size not confirmed — omitted.

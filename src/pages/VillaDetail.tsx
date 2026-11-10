@@ -105,7 +105,7 @@ function VillaHero({ villa }: { villa: Villa }) {
         </motion.p>
       </div>
       {villa.renders && (
-        <p className="absolute bottom-6 right-6 z-10 text-[10px] uppercase tracking-[0.18em] text-stone/80 md:right-10">
+        <p className="absolute bottom-6 left-6 right-6 z-10 text-right text-[10px] uppercase tracking-[0.18em] text-stone/80 md:left-auto md:right-10">
           {RENDER_NOTE}
         </p>
       )}
