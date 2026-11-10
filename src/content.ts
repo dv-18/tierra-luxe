@@ -585,13 +585,9 @@ export const aboutContent = {
 }
 
 /**
- * Brands We Use — grouped by category, ready for verified logos.
- *
- * FLAG: the previous version of this section listed specific furniture
- * houses (Minotti, Hermès, etc.) that were never confirmed as real Tierra
- * partners — they have been removed rather than presented as fact. Do not
- * add a brand here until the team confirms it is a genuine, current partner.
- * `items: []` renders a tasteful "logos to follow" placeholder per category.
+ * Brands We Use — taken from the Redwood interior specification (furniture,
+ * lighting and appliance schedules). Text wordmarks; swap for logos later.
+ * `items: []` renders a quiet "logos to follow" placeholder for a category.
  */
 export interface BrandGroup {
   category: string
@@ -599,10 +595,14 @@ export interface BrandGroup {
 }
 
 export const brandGroups: BrandGroup[] = [
-  { category: 'Interiors', items: [] },
-  { category: 'Stone & Timber', items: [] },
-  { category: 'Lighting', items: [] },
-  { category: 'Fixtures', items: [] },
-  { category: 'Landscape', items: [] },
-  { category: 'Specialist Craft', items: [] },
+  {
+    category: 'Furniture',
+    items: ['Minotti', 'Giorgetti', 'Arflex', 'Baxter', 'Secolo', 'Roche Bobois', 'Bonaldo', 'Artifort', 'Cattelan Italia'],
+  },
+  {
+    category: 'Lighting',
+    items: ['Henge', 'Artemide', 'Allied Maker', 'Articolo', 'Trizo21', 'A-N-D'],
+  },
+  { category: 'Kitchen & Appliances', items: ['Castagna Cucine', 'Gaggenau'] },
+  { category: 'Specialist Craft', items: ['Fazioli'] },
 ]
