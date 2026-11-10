@@ -597,12 +597,28 @@ export interface BrandGroup {
 export const brandGroups: BrandGroup[] = [
   {
     category: 'Furniture',
-    items: ['Minotti', 'Giorgetti', 'Arflex', 'Baxter', 'Secolo', 'Roche Bobois', 'Bonaldo', 'Artifort', 'Cattelan Italia'],
+    items: [
+      'Minotti',
+      'Giorgetti',
+      'Poltrona Frau',
+      'Gallotti & Radice',
+      'Porada',
+      'Ceccotti',
+      'Arflex',
+      'Baxter',
+      'Secolo',
+      'Ditre Italia',
+      'Roche Bobois',
+      'Bonaldo',
+      'Artifort',
+      'Cattelan Italia',
+    ],
   },
   {
     category: 'Lighting',
-    items: ['Henge', 'Artemide', 'Allied Maker', 'Articolo', 'Trizo21', 'A-N-D'],
+    items: ['Apparatus', 'Alain Ellouz', 'Henge', 'Artemide', 'Allied Maker', 'Articolo', 'Trizo21', 'A-N-D'],
   },
-  { category: 'Kitchen & Appliances', items: ['Castagna Cucine', 'Gaggenau'] },
-  { category: 'Specialist Craft', items: ['Fazioli'] },
+  { category: 'Kitchen, Wardrobes & Appliances', items: ['Castagna Cucine', 'Rimadesio', 'Gaggenau', 'Miele'] },
+  { category: 'Specialist Craft', items: ['Fazioli', 'Mohebban'] },
 ]
+
