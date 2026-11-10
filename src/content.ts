@@ -3,7 +3,7 @@
  *
  * ⚠️ NEEDS-CONFIRMATION — search this file for "FLAG:" to find every place
  * that holds a placeholder pending real business data:
- *   - Sienna: location and specs; interior renders are screenshot crops.
+ *   - Sienna: specs; interior renders are screenshot crops.
  *   - Frond P / Redwood sizes, Redwood bathroom count (omitted until known).
  *   - The brand partner list (no names until verified).
  *   - Contact email + social handles.
@@ -90,7 +90,7 @@ export const intro = {
  * Villas — the collection (drives home, /villas and /villas/:slug).
  *
  * Spec values are only shown when present: leave a field undefined
- * rather than guess. Sienna is entirely provisional — search "FLAG:".
+ * rather than guess. Search "FLAG:" for values still to confirm.
  * ------------------------------------------------------------------ */
 
 export interface VillaSection {
@@ -125,7 +125,7 @@ export interface Villa {
   transformations?: VillaTransformation[] // before/after slider renders only when a beforeImage exists
   video?: VillaVideo
   renders?: boolean // true → images are architectural visualisations, show disclaimer
-  interiorsBy?: string // interior design studio credit, shown with the renders note
+  designCredit?: string // design studio credit, shown with the renders note
   sizeSqft?: string // built-up area, e.g. "7,336"
   bedrooms?: number
   bathrooms?: number
@@ -259,19 +259,20 @@ export const villas: Villa[] = [
     ],
   },
   {
-    slug: 'sienna',
+    slug: 'sienna-jumeirah-golf-estates',
+    aliases: ['sienna'],
     name: 'Sienna',
     status: 'In Development',
-    // FLAG: real location not confirmed — kept general on purpose.
-    location: 'Dubai',
+    location: 'Jumeirah Golf Estates',
     renders: true,
-    interiorsBy: 'Turnkey Interior Design',
-    // Interior renders cropped from Turnkey's presentation screenshots —
-    // swap for the original high-resolution files when available.
-    heroImage: `${SN}/living-room.webp`,
+    designCredit: 'Interior and landscape design by Turnkey Interior Design.',
+    // Landscape renders are full resolution; interior renders are cropped
+    // from presentation screenshots — swap for the originals when available.
+    heroImage: `${SN}/pool-pergola.webp`,
     cardImage: `${SN}/dining-art.webp`,
     cardAlt: 'Sienna dining room with round marble table and travertine walls',
     gallery: [
+      `${SN}/garden-path.webp`,
       `${SN}/living-garden.webp`,
       `${SN}/lounge.webp`,
       `${SN}/dining-art.webp`,
@@ -287,12 +288,15 @@ export const villas: Villa[] = [
       `${SN}/pantry.webp`,
       `${SN}/basement-stair.webp`,
       `${SN}/art-wall.webp`,
+      `${SN}/pergola-dining.webp`,
+      `${SN}/garden-walk.webp`,
+      `${SN}/pool-pergola.webp`,
     ],
     portraitGallery: [`${SN}/corridor.webp`, `${SN}/lift-lobby.webp`, `${SN}/powder-room.webp`],
     // FLAG: bedrooms / bathrooms / levels / size not confirmed — omitted.
-    shortSpec: 'In Development · Dubai', // FLAG: update once specs are confirmed
+    shortSpec: 'In Development · Jumeirah Golf Estates', // FLAG: add bedrooms once confirmed
     overview: [
-      'Sienna is being reimagined around a calm, tactile palette — travertine and pale stone set against dark timber, with feature walls of deep red marble.',
+      'Set in Jumeirah Golf Estates, Sienna is being reimagined around a calm, tactile palette — travertine and pale stone set against dark timber, with feature walls of deep red marble.',
       'A double-height entrance lobby, a sculptural spiral stair and a lift connect the levels, opening onto living, dining and family spaces that look out through full-height glazing to the garden.',
       'An open kitchen, a family lounge with its own bar and a sequence of quietly detailed rooms make it a home designed for both everyday living and entertaining. Upstairs, the principal suite has its own sitting room and a bathroom with a freestanding bath beneath a wide window, alongside a private gym with sauna. Below, a lower level given over to entertaining holds a games room and a private cinema.',
     ],
@@ -313,8 +317,8 @@ export const villas: Villa[] = [
       {
         n: 3,
         heading: 'Exterior & Landscape',
-        body: 'Full-height glazing and sheer drapery open the living spaces to the garden, so greenery and daylight become part of the interior.',
-        image: `${SN}/living-garden.webp`,
+        body: 'Full-height glazing opens the living spaces to a travertine pool terrace, where a timber pergola shades an outdoor kitchen and long dining counter. A softly lit garden path winds around the house between layered planting and flowering trees.',
+        image: `${SN}/pergola-dining.webp`,
       },
     ],
   },
