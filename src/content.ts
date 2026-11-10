@@ -121,6 +121,7 @@ export interface Villa {
   cardImage: string
   cardAlt: string
   gallery: string[]
+  featureImage?: string // pinned full-screen image; defaults to gallery[0]
   portraitGallery?: string[]
   transformations?: VillaTransformation[] // before/after slider renders only when a beforeImage exists
   video?: VillaVideo
@@ -268,31 +269,22 @@ export const villas: Villa[] = [
     designCredit: 'Interior and landscape design by Turnkey Interior Design.',
     // Landscape renders are full resolution; interior renders are cropped
     // from presentation screenshots — swap for the originals when available.
-    heroImage: `${SN}/garden-path.webp`,
+    heroImage: `${SN}/pergola-dining.webp`,
     cardImage: `${SN}/dining-art.webp`,
     cardAlt: 'Sienna dining room with round marble table and travertine walls',
+    // A curated edit — one image per space, each used once on the page.
     gallery: [
-      `${SN}/garden-walk.webp`,
+      `${SN}/pool-pergola.webp`,
       `${SN}/living-garden.webp`,
-      `${SN}/lounge.webp`,
       `${SN}/dining-art.webp`,
       `${SN}/kitchen-island.webp`,
       `${SN}/family-bar.webp`,
-      `${SN}/lobby-atrium.webp`,
-      `${SN}/entrance.webp`,
       `${SN}/spiral-stair.webp`,
-      `${SN}/suite-lounge.webp`,
       `${SN}/suite-balcony.webp`,
+      `${SN}/suite-lounge.webp`,
       `${SN}/principal-bath.webp`,
-      `${SN}/gym.webp`,
-      `${SN}/pantry.webp`,
-      `${SN}/basement-stair.webp`,
-      `${SN}/art-wall.webp`,
-      `${SN}/pergola-dining.webp`,
-      `${SN}/pool-pergola.webp`,
-      `${SN}/garden-path.webp`,
     ],
-    portraitGallery: [`${SN}/corridor.webp`, `${SN}/lift-lobby.webp`, `${SN}/powder-room.webp`],
+    featureImage: `${SN}/lounge.webp`,
     // FLAG: bedrooms / bathrooms / levels / size not confirmed — omitted.
     shortSpec: 'In Development · Jumeirah Golf Estates', // FLAG: add bedrooms once confirmed
     overview: [
@@ -318,7 +310,7 @@ export const villas: Villa[] = [
         n: 3,
         heading: 'Exterior & Landscape',
         body: 'Full-height glazing opens the living spaces to a travertine pool terrace, where a timber pergola shades an outdoor kitchen and long dining counter. A softly lit garden path winds around the house between layered planting and flowering trees.',
-        image: `${SN}/pergola-dining.webp`,
+        image: `${SN}/garden-walk.webp`,
       },
     ],
   },

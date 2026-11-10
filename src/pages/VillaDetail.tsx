@@ -329,7 +329,7 @@ function PinnedGlide({ villa }: { villa: Villa }) {
       <section className="bg-charcoal">
         <div className="relative h-[58svh] min-h-[440px] w-full overflow-hidden md:h-[70vh]">
           <img
-            src={villa.gallery[0]}
+            src={villa.featureImage ?? villa.gallery[0]}
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -349,7 +349,7 @@ function PinnedGlide({ villa }: { villa: Villa }) {
       {/* Pinned (sticky) background image + persistent stat */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <img
-          src={villa.gallery[0]}
+          src={villa.featureImage ?? villa.gallery[0]}
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
         />
