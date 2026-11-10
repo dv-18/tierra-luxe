@@ -278,6 +278,9 @@ export const villas: Villa[] = [
       `${SN}/kitchen-island.webp`,
       `${SN}/family-bar.webp`,
       `${SN}/lobby-atrium.webp`,
+      `${SN}/suite-lounge.webp`,
+      `${SN}/suite-balcony.webp`,
+      `${SN}/principal-bath.webp`,
     ],
     portraitGallery: [`${SN}/corridor.webp`, `${SN}/lift-lobby.webp`, `${SN}/powder-room.webp`],
     // FLAG: bedrooms / bathrooms / levels / size not confirmed — omitted.
@@ -285,7 +288,7 @@ export const villas: Villa[] = [
     overview: [
       'Sienna is being reimagined around a calm, tactile palette — travertine and pale stone set against dark timber, with feature walls of deep red marble.',
       'A double-height entrance lobby, a sculptural spiral stair and a lift connect the levels, opening onto living, dining and family spaces that look out through full-height glazing to the garden.',
-      'An open kitchen, a family lounge with its own bar and a sequence of quietly detailed rooms make it a home designed for both everyday living and entertaining.',
+      'An open kitchen, a family lounge with its own bar and a sequence of quietly detailed rooms make it a home designed for both everyday living and entertaining. Upstairs, the principal suite has its own sitting room and a bathroom with a freestanding bath beneath a wide window.',
     ],
     pullQuote: 'Travertine, timber and red marble — warmth composed with restraint.',
     sections: [
