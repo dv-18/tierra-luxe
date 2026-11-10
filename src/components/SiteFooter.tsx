@@ -10,7 +10,7 @@ export default function SiteFooter() {
           © Tierra Luxe {site.year} · {site.location}
         </p>
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
           <Link to="/villas" className="link-underline uppercase tracking-[0.16em] hover:text-ivory">
             Villas
           </Link>
@@ -31,8 +31,8 @@ export default function SiteFooter() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="h-2 w-2 animate-dot-pulse rounded-full bg-gold" />
-          <span className="uppercase tracking-[0.16em]">{contact.availability}</span>
+          <span className="h-2 w-2 shrink-0 animate-dot-pulse rounded-full bg-gold" />
+          <span className="text-center uppercase tracking-[0.16em]">{contact.availability}</span>
         </div>
       </div>
     </footer>
