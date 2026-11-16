@@ -17,7 +17,8 @@ function villaFacts(villa: Villa): [string, string][] {
     ['Bedrooms', villa.bedrooms?.toString()],
     ['Bathrooms', villa.bathrooms?.toString()],
     ['Levels', villa.levels],
-    ['Size', villa.sizeSqft && `${villa.sizeSqft} sq ft`],
+    ['Built-up Area', villa.sizeSqft && `${villa.sizeSqft} sq ft`],
+    ['Plot Area', villa.plotSqft && `${villa.plotSqft} sq ft`],
     ['Status', villa.status],
   ]
   return facts.filter((f): f is [string, string] => Boolean(f[1]))
@@ -221,7 +222,7 @@ function ProjectFilm({ villa }: { villa: Villa }) {
 function StatOverlay({ villa }: { villa: Villa }) {
   // Lead with size when known, otherwise bedrooms, otherwise the location.
   const [label, value, unit] = villa.sizeSqft
-    ? ['Size', villa.sizeSqft, 'Sq.ft.']
+    ? ['Built-up Area', villa.sizeSqft, 'Sq.ft.']
     : villa.bedrooms
       ? ['Bedrooms', String(villa.bedrooms), '']
       : ['Location', villa.location, '']

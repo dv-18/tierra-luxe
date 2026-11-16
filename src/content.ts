@@ -4,9 +4,9 @@
  * ⚠️ NEEDS-CONFIRMATION — search this file for "FLAG:" to find every place
  * that holds a placeholder pending real business data:
  *   - Sienna: specs; interior renders are screenshot crops.
- *   - Frond P / Redwood sizes, Redwood bathroom count (omitted until known).
+ *   - Redwood size and bathroom count (omitted until known).
  *   - The brand partner list (no names until verified).
- *   - Contact email + social handles.
+ *   - Social profiles (hidden until real links exist).
  *   - Team names and photography.
  *
  * Frond O uses the project's own photography; Frond P, Sienna and Redwood
@@ -25,8 +25,7 @@ const SN = '/projects/sienna'
 export const site = {
   brand: 'TIERRA LUXE',
   tagline: 'A luxury residential transformation studio.',
-  // FLAG: placeholder — confirm the real inbox before this goes live.
-  email: 'hello@tierraluxe.ae',
+  email: 'info@tierraluxe.com',
   location: 'Palm Jumeirah, Dubai',
   year: 2026,
 }
@@ -125,9 +124,11 @@ export interface Villa {
   portraitGallery?: string[]
   transformations?: VillaTransformation[] // before/after slider renders only when a beforeImage exists
   video?: VillaVideo
+  hidden?: boolean // keep in the data but leave off the site
   renders?: boolean // true → images are architectural visualisations, show disclaimer
   designCredit?: string // design studio credit, shown with the renders note
-  sizeSqft?: string // built-up area, e.g. "7,336"
+  sizeSqft?: string // built-up area, e.g. "5,000"
+  plotSqft?: string // plot area
   bedrooms?: number
   bathrooms?: number
   levels?: string
@@ -137,7 +138,7 @@ export interface Villa {
   sections: VillaSection[] // accordion: Architecture / Interior / Exterior & Landscape
 }
 
-export const villas: Villa[] = [
+const allVillas: Villa[] = [
   {
     slug: 'frond-o-palm-jumeirah',
     aliases: ['villa-o58', 'frond-n-palm-jumeirah'],
@@ -175,15 +176,16 @@ export const villas: Villa[] = [
       `${FO}/vertical-entry.webp`,
       `${FO}/vertical-living.webp`,
     ],
-    sizeSqft: '7,336',
+    sizeSqft: '5,000',
+    plotSqft: '7,336',
     bedrooms: 4,
     bathrooms: 5,
     levels: '2',
-    shortSpec: '4 Bed · 7,336 sq ft · Palm Jumeirah',
+    shortSpec: '4 Bed · 5,000 sq ft · Palm Jumeirah',
     overview: [
       'Frond O is a completed two-level residence on Palm Jumeirah, transformed from a traditional villa into a contemporary waterfront home.',
-      'Across 7,336 square feet, four bedrooms and five bathrooms are arranged around soaring glazing, open living spaces and uninterrupted views towards the water.',
-      'The 5,000-square-foot plot is shaped for indoor–outdoor living, with a waterfront pool terrace, sunken seating and a calm palette of stone, timber and glass.',
+      'Across 5,000 square feet, four bedrooms and five bathrooms are arranged around soaring glazing, open living spaces and uninterrupted views towards the water.',
+      'The 7,336-square-foot plot is shaped for indoor–outdoor living, with a waterfront pool terrace, sunken seating and a calm palette of stone, timber and glass.',
     ],
     pullQuote: 'A complete waterfront transformation, designed around light, scale and the horizon.',
     sections: [
@@ -228,10 +230,12 @@ export const villas: Villa[] = [
       `${FP}/pool-view.webp`,
       `${FP}/water-garden.webp`,
     ],
+    sizeSqft: '6,300',
+    plotSqft: '7,777',
     bedrooms: 4,
     bathrooms: 5,
     levels: '2',
-    shortSpec: '4 Bed · 5 Bath · Palm Jumeirah',
+    shortSpec: '4 Bed · 6,300 sq ft · Palm Jumeirah',
     overview: [
       'A beachfront villa on Palm Jumeirah, being reimagined as a contemporary residence of stone and glass that opens entirely towards the sea.',
       'Four bedrooms are arranged across two levels — a principal suite and three en-suite bedrooms — with a study, a bar and generous living and dining spaces at the heart of the plan.',
@@ -263,6 +267,7 @@ export const villas: Villa[] = [
     slug: 'sienna-jumeirah-golf-estates',
     aliases: ['sienna'],
     name: 'Sienna',
+    hidden: true, // hidden for now at the owner's request
     status: 'In Development',
     location: 'Jumeirah Golf Estates',
     renders: true,
@@ -366,6 +371,9 @@ export const villas: Villa[] = [
     ],
   },
 ]
+
+/** The live collection — villas marked `hidden` stay in the data but off the site. */
+export const villas: Villa[] = allVillas.filter((v) => !v.hidden)
 
 export function getVilla(slug: string | undefined): Villa | undefined {
   return villas.find((v) => v.slug === slug || v.aliases?.includes(slug ?? ''))
@@ -495,12 +503,8 @@ export const contact = {
   bgPoster: `${FO}/night-exterior.webp`,
   bgAlt: 'Frond O villa exterior at night on Palm Jumeirah',
   interests: ['Buying', 'Selling', 'Investing', 'Partnering with us'],
-  socials: [
-    // FLAG: placeholder handles — replace with real profile URLs before launch.
-    { label: 'Instagram', href: 'https://instagram.com' },
-    { label: 'LinkedIn', href: 'https://linkedin.com' },
-    { label: 'WhatsApp', href: 'https://wa.me/' },
-  ],
+  // Hidden until real profiles are ready — add { label, href } entries here.
+  socials: [] as { label: string; href: string }[],
   // FLAG: confirm this claim reflects current activity.
   availability: 'Considering new opportunities in established communities',
 }
@@ -579,7 +583,7 @@ export const aboutContent = {
     completedLabel: 'Completed Work',
     completedSlug: 'frond-o-palm-jumeirah',
     completedSummary:
-      'A traditional Palm Jumeirah villa transformed into a contemporary four-bedroom waterfront residence of 7,336 sq ft. Completed and sold.',
+      'A traditional Palm Jumeirah villa transformed into a contemporary four-bedroom waterfront residence of 5,000 sq ft. Completed and sold.',
   },
   brandsHeading: 'Brands We Use',
 }

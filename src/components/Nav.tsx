@@ -56,9 +56,10 @@ export default function Nav() {
           {/* Wordmark */}
           <Link
             to="/"
-            className={`font-display tracking-[0.2em] text-lg transition-colors duration-700 ease-expo ${textColor}`}
+            aria-label={site.brand}
+            className={`transition-colors duration-700 ease-expo ${textColor}`}
           >
-            {site.brand}
+            <Wordmark className="h-5 md:h-6" />
           </Link>
 
           {/* Desktop links */}
@@ -115,9 +116,7 @@ export default function Nav() {
             transition={{ duration: 0.5, ease: EASE }}
           >
             <div className="flex h-20 items-center justify-between px-6">
-              <span className="font-display tracking-[0.2em] text-lg text-charcoal">
-                {site.brand}
-              </span>
+              <Wordmark className="h-5 text-charcoal" />
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -160,5 +159,19 @@ export default function Nav() {
         )}
       </AnimatePresence>
     </>
+  )
+}
+
+/** Official wordmark, drawn as a mask so it takes the current text colour. */
+function Wordmark({ className = '' }: { className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`block aspect-[1087/203] bg-current ${className}`}
+      style={{
+        WebkitMask: 'url(/brand/wordmark.png) center / contain no-repeat',
+        mask: 'url(/brand/wordmark.png) center / contain no-repeat',
+      }}
+    />
   )
 }
