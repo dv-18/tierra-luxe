@@ -27,6 +27,9 @@ function Emphasis({ text }: { text: string }) {
   )
 }
 
+// Founder and Brands sections are hidden for now; set to true to bring them back.
+const SHOW_FOUNDER_AND_BRANDS = false
+
 export default function About() {
   return (
     <>
@@ -35,10 +38,10 @@ export default function About() {
         <Statement />
         <MissionVision block={aboutContent.vision} />
         <MissionVision block={aboutContent.mission} />
-        <Values />
         <Holistic />
-        <Team />
-        <Brands />
+        <Values />
+        {SHOW_FOUNDER_AND_BRANDS && <Team />}
+        {SHOW_FOUNDER_AND_BRANDS && <Brands />}
       </main>
       <EnquirySection />
       <SiteFooter />
